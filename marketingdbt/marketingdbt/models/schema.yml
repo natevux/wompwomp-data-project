@@ -1,0 +1,49 @@
+version: 2
+
+models: 
+    - name: demograph_info
+      tests:
+        - dbt_expectations.expect_table_row_count_to_equal_other_table:
+            compare_model: src_users
+            
+    - name: src_users
+      tests:
+        - dbt_expectations.expect_table_row_count_to_equal_other_table:
+            compare_model: source('marketing','raw_users')
+      columns:
+        - name: user_id
+          tests:
+            - unique
+            - not_null
+
+        - name: name_first
+          tests:
+            - not_null
+
+        - name: name_last
+          tests:
+            - not_null
+
+        - name: gender
+          tests:
+            - not_null
+
+        - name: login_username
+          tests:
+            - not_null
+
+        - name: login_password
+          tests:
+            - not_null
+
+        - name: year_born
+          tests:
+            - not_null
+            - dbt_expectations.expect_column_values_to_be_of_type:
+                column_type: number
+
+        - name: member_since
+          tests:
+            - not_null
+            - dbt_expectations.expect_column_values_to_be_of_type:
+                column_type: number

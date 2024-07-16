@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: marketing
+    schema: raw
+    tables:
+      - name: raw_users
+        identifer: raw_users
+        freshness:
+          warn_after: {count: 72, period: hour}
